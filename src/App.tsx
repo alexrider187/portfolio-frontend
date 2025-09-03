@@ -12,7 +12,7 @@ const Analytics = lazy(() => import("./pages/Analytics"));
 const Login = lazy(() => import("./pages/Login"));
 const Home = lazy(() => import("./pages/Home"));
 
-// Optional: fallback UI while page is loading
+// Fallback UI while lazy pages load
 const LoadingFallback = () => <div className="loading">Loading...</div>;
 
 export default function App(): JSX.Element {
@@ -21,25 +21,16 @@ export default function App(): JSX.Element {
 
 function AnimatedRoutes(): JSX.Element {
   const location = useLocation();
-  const { isAuthenticated, role } = useAuth(); // role: 'admin' | 'client'
+  const { isAuthenticated } = useAuth();
 
   return (
     <AnimatePresence mode="wait">
       <Suspense fallback={<LoadingFallback />}>
         <Routes location={location} key={location.pathname}>
           {/* Base path redirect */}
-          <Route
-            path="/"
-            element={
-              isAuthenticated ? (
-                <Navigate to="/home" replace />
-              ) : (
-                <Navigate to="/home" replace />
-              )
-            }
-          />
+          <Route path="/" element={<Navigate to="/home" replace />} />
 
-          {/* Login - only admin with ?allowLogin=true */}
+          {/* Login - only accessible with ?allowLogin=true */}
           <Route
             path="/login"
             element={
@@ -47,42 +38,27 @@ function AnimatedRoutes(): JSX.Element {
                 const searchParams = new URLSearchParams(location.search);
                 const allowLogin = searchParams.get("allowLogin") === "true";
 
-                if (isAuthenticated) {
-                  if (role === "admin" && allowLogin) {
-                    return <Login />;
-                  }
-                  return <Navigate to="/home" replace />;
-                }
+                // Already logged in → redirect to /home
+                if (isAuthenticated) return <Navigate to="/home" replace />;
 
-                if (allowLogin) {
-                  return <Login />;
-                }
+                // Only allow login if ?allowLogin=true
+                if (allowLogin) return <Login />;
 
+                // Everyone else → redirect to /home
                 return <Navigate to="/home" replace />;
               })()
             }
           />
 
-          {/* Home - accessible to all logged-in users */}
-          <Route
-            path="/home"
-            element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            }
-          />
+          {/* Home - public */}
+          <Route path="/home" element={<Home />} />
 
           {/* Admin-only routes */}
           <Route
             path="/dashboard"
             element={
               <PrivateRoute adminOnly>
-                {role === "admin" ? (
-                  <Dashboard />
-                ) : (
-                  <Navigate to="/home" replace />
-                )}
+                <Dashboard />
               </PrivateRoute>
             }
           />
@@ -90,11 +66,7 @@ function AnimatedRoutes(): JSX.Element {
             path="/projects"
             element={
               <PrivateRoute adminOnly>
-                {role === "admin" ? (
-                  <Projects />
-                ) : (
-                  <Navigate to="/home" replace />
-                )}
+                <Projects />
               </PrivateRoute>
             }
           />
@@ -102,22 +74,13 @@ function AnimatedRoutes(): JSX.Element {
             path="/analytics"
             element={
               <PrivateRoute adminOnly>
-                {role === "admin" ? (
-                  <Analytics />
-                ) : (
-                  <Navigate to="/home" replace />
-                )}
+                <Analytics />
               </PrivateRoute>
             }
           />
 
           {/* Catch-all redirect */}
-          <Route
-            path="*"
-            element={
-              <Navigate to={isAuthenticated ? "/home" : "/home"} replace />
-            }
-          />
+          <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </Suspense>
     </AnimatePresence>
