@@ -31,11 +31,15 @@ function AnimatedRoutes(): JSX.Element {
           <Route
             path="/"
             element={
-              isAuthenticated ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />
+              isAuthenticated ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Navigate to="/home" replace />
+              )
             }
           />
 
-          {/* Login */}
+          {/* Login - only admin with ?allowLogin=true */}
           <Route
             path="/login"
             element={
@@ -43,11 +47,18 @@ function AnimatedRoutes(): JSX.Element {
                 const searchParams = new URLSearchParams(location.search);
                 const allowLogin = searchParams.get("allowLogin") === "true";
 
-                // Redirect all logged-in users except admins with ?allowLogin=true
-                if (isAuthenticated && !(role === "admin" && allowLogin)) {
+                if (isAuthenticated) {
+                  if (role === "admin" && allowLogin) {
+                    return <Login />;
+                  }
                   return <Navigate to="/home" replace />;
                 }
-                return <Login />;
+
+                if (allowLogin) {
+                  return <Login />;
+                }
+
+                return <Navigate to="/home" replace />;
               })()
             }
           />
@@ -67,7 +78,11 @@ function AnimatedRoutes(): JSX.Element {
             path="/dashboard"
             element={
               <PrivateRoute adminOnly>
-                {role === "admin" ? <Dashboard /> : <Navigate to="/home" replace />}
+                {role === "admin" ? (
+                  <Dashboard />
+                ) : (
+                  <Navigate to="/home" replace />
+                )}
               </PrivateRoute>
             }
           />
@@ -75,7 +90,11 @@ function AnimatedRoutes(): JSX.Element {
             path="/projects"
             element={
               <PrivateRoute adminOnly>
-                {role === "admin" ? <Projects /> : <Navigate to="/home" replace />}
+                {role === "admin" ? (
+                  <Projects />
+                ) : (
+                  <Navigate to="/home" replace />
+                )}
               </PrivateRoute>
             }
           />
@@ -83,13 +102,22 @@ function AnimatedRoutes(): JSX.Element {
             path="/analytics"
             element={
               <PrivateRoute adminOnly>
-                {role === "admin" ? <Analytics /> : <Navigate to="/home" replace />}
+                {role === "admin" ? (
+                  <Analytics />
+                ) : (
+                  <Navigate to="/home" replace />
+                )}
               </PrivateRoute>
             }
           />
 
           {/* Catch-all redirect */}
-          <Route path="*" element={<Navigate to={isAuthenticated ? "/home" : "/login"} replace />} />
+          <Route
+            path="*"
+            element={
+              <Navigate to={isAuthenticated ? "/home" : "/home"} replace />
+            }
+          />
         </Routes>
       </Suspense>
     </AnimatePresence>

@@ -4,15 +4,15 @@ import { type ReactNode } from "react";
 
 interface PrivateRouteProps {
   children: ReactNode;
-  adminOnly?: boolean; // optional: restrict to admin
+  adminOnly?: boolean;
 }
 
 export default function PrivateRoute({ children, adminOnly = false }: PrivateRouteProps) {
   const { isAuthenticated, role } = useAuth();
 
-  // Not logged in → redirect to login
+  // Not logged in → send to /home instead of /login
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   // Admin-only route check
