@@ -102,7 +102,7 @@ export default function Projects() {
                   src={
                     project.image.startsWith("http")
                       ? project.image
-                      : `http://localhost:5000${project.image}`
+                      : `https://portfolio-frontend-is8u-hpbqu2r84-alexrider187s-projects.vercel.app${project.image}`
                   }
                   alt={project.title}
                   className="w-full h-40 object-cover rounded-xl mb-4"

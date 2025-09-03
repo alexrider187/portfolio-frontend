@@ -120,7 +120,7 @@ export default function ProjectForm({ project, onClose, onSave }: ProjectFormPro
           {/* Preview */}
           {imagePreview && (
             <img
-              src={imagePreview.startsWith("http") ? imagePreview : `http://localhost:5000${imagePreview}`}
+              src={imagePreview.startsWith("http") ? imagePreview : `https://portfolio-frontend-is8u-hpbqu2r84-alexrider187s-projects.vercel.app${imagePreview}`}
               alt="Preview"
               className="mb-3 w-full h-48 object-cover rounded"
             />

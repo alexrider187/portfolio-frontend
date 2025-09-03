@@ -67,7 +67,7 @@ export default function ProjectsSection() {
                     src={
                       project.image.startsWith("http")
                         ? project.image
-                        : `http://localhost:5000${project.image}`
+                        : `https://portfolio-frontend-is8u-hpbqu2r84-alexrider187s-projects.vercel.app${project.image}`
                     }
                     alt={project.title}
                     loading="lazy" // ✅ lazy load images
