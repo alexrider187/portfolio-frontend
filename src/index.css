@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+body {
+  @apply bg-bg text-neutral-light font-sans antialiased;
+}
+
+/* Typography refinements */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-display text-white tracking-tight;
+}
+
+h1 {
+  @apply text-4xl font-bold;
+}
+
+h2 {
+  @apply text-3xl font-semibold;
+}
+
+h3 {
+  @apply text-2xl font-semibold;
+}
+
+/* Card utility */
+.card {
+  @apply bg-bg-card rounded-2xl shadow-soft p-6 transition-all duration-300 hover:shadow-glow;
+}
+
+/* Button utility */
+.btn-primary {
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-xl bg-primary text-white font-medium hover:bg-primary-dark transition-colors duration-300;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-xl bg-secondary text-white font-medium hover:bg-secondary-dark transition-colors duration-300;
+}
