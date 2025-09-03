@@ -100,9 +100,9 @@ export default function Projects() {
               {project.image && (
                 <img
                   src={
-                    project.image.startsWith("http")
+                    project.image.startsWith("https")
                       ? project.image
-                      : `https://portfolio-frontend-is8u-hpbqu2r84-alexrider187s-projects.vercel.app${project.image}`
+                      : `https://portfolio-backend-nqlr.onrender.com${project.image}`
                   }
                   alt={project.title}
                   className="w-full h-40 object-cover rounded-xl mb-4"

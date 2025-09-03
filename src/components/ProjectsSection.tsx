@@ -65,9 +65,9 @@ export default function ProjectsSection() {
                 {project.image && (
                   <img
                     src={
-                      project.image.startsWith("http")
+                      project.image.startsWith("https")
                         ? project.image
-                        : `https://portfolio-frontend-is8u-hpbqu2r84-alexrider187s-projects.vercel.app${project.image}`
+                        : `https://portfolio-backend-nqlr.onrender.com${project.image}`
                     }
                     alt={project.title}
                     loading="lazy" // ✅ lazy load images
